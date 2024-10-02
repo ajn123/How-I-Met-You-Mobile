@@ -4,8 +4,16 @@ import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import axios from "axios";
 
 export default function HomeScreen() {
+
+    axios.get(`http://localhost/api/tags`).then((response) => {
+        console.log(response.data);
+    }).catch((error) => {
+        console.log(error);
+    });
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -27,7 +35,7 @@ export default function HomeScreen() {
           <ThemedText type="defaultSemiBold">
             {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
           </ThemedText>{' '}
-          to open developer tools.
+          to open developer tools.tthhthht
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
