@@ -1,21 +1,31 @@
 import {FlatList, Text, View} from "react-native";
 import axios from "axios";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import { StyleSheet, Image, Platform } from 'react-native';
+import axiosUtil from "@/utils/axiosUtil";
 
 export default function Index() {
     const [tags, setTags] = useState([]);
+    const [events, setEvents] = useState([]);
 
-    axios.get(`http://localhost/api/events`).then((response) => {
-        setTags(response.data);
-    })
+    useEffect(() => {
+        axiosUtil().get(`/events`).then((response) => {
+
+            console.log(response);
+
+            setEvents(response.data.data);
+        })
+    }, []);
+
 
   return (
     <View
       style={styles.container}
     >
-        <FlatList data={tags} renderItem={({item}) => <Text style={styles.item}>{item.name}</Text>} />
+        <Text style={styles.item}>Hello World</Text>
+
+        <FlatList data={events} renderItem={({item}) => <Text style={styles.item}>{item.name}</Text>} />
     </View>
   );
 }
