@@ -8,23 +8,16 @@ import axiosUtil from "@/utils/axiosUtil";
 export default function Index() {
     const [tags, setTags] = useState([]);
     const [events, setEvents] = useState([]);
-
     useEffect(() => {
         axiosUtil().get(`/events`).then((response) => {
-
-            console.log(response);
-
             setEvents(response.data.data);
         })
     }, []);
-
 
   return (
     <View
       style={styles.container}
     >
-        <Text style={styles.item}>Hello World</Text>
-
         <FlatList data={events} renderItem={({item}) => <Text style={styles.item}>{item.name}</Text>} />
     </View>
   );
