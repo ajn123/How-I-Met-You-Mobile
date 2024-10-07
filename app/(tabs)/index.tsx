@@ -1,36 +1,26 @@
-import {FlatList, Text, View} from "react-native";
+import { Button, FlatList, Text, View } from "react-native";
 import axios from "axios";
 
-import { StyleSheet, Image, Platform } from 'react-native';
+import { StyleSheet, Image, Platform } from "react-native";
 import EventList from "@/components/EventList";
-import {Drawer} from "react-native-drawer-layout";
-import {useEffect, useState} from "react";
+import { Drawer } from "react-native-drawer-layout";
+import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import EventFilter from "@/components/EventFilter";
 
 // @ts-ignore
 export default function Index() {
-    const [open, setOpen] = useState(false);
-  return (
-      <Drawer
-          open={open}
-          onOpen={() => setOpen(true)}
-          onClose={() => setOpen(false)}
-          renderDrawerContent={() => {
-              return <Text>Drawer content</Text>;
-          }}
-      >
-        <EventList/>
-        </Drawer>
-  );
+  return <EventList />;
 }
-const styles =   StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-        paddingTop: 0,
-    },
-    item: {
-        color: "slategrey",
-        backgroundColor: "ghostwhite",
-        textAlign: "center",
-    },
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    paddingTop: 0,
+  },
+  item: {
+    color: "slategrey",
+    backgroundColor: "ghostwhite",
+    textAlign: "center",
+  },
 });

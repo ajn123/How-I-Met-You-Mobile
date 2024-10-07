@@ -1,7 +1,8 @@
-import { Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
 import DateUtil from "@/utils/DateUtil";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
+import EventBasicInfo from "@/components/event/EventBasicInfo";
 
 export default function Event() {
   const navigation = useNavigation();
@@ -10,15 +11,12 @@ export default function Event() {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: event.name,
+      headerBackTitle: "Back",
+      headerRight: () => (
+        <Button title={"Share"} onPress={() => alert("share")} />
+      ),
     });
   }, []);
 
-  return (
-    <View style={{}}>
-      <Text style={{ marginBottom: 5 }}>{event.name}</Text>
-      <Text>{DateUtil(event.date)}</Text>
-      <Text>{event.url}</Text>
-      <Text>{event.description}</Text>
-    </View>
-  );
+  return <EventBasicInfo event={event} />;
 }

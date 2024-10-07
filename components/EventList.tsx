@@ -1,8 +1,16 @@
-import { FlatList, NativeScrollEvent, StyleSheet, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  NativeScrollEvent,
+  StyleSheet,
+  View,
+} from "react-native";
 import EventItem from "@/components/EventItem";
 import { useEffect, useRef, useState } from "react";
 import axiosUtil from "@/utils/axiosUtil";
 import EventFilter from "@/components/EventFilter";
+import { useNavigation } from "@react-navigation/native";
+import { Drawer } from "react-native-drawer-layout";
 
 const styles = StyleSheet.create({
   container: {
@@ -22,8 +30,24 @@ export default function EventList() {
   const [tags, setTags] = useState([]);
   const [events, setEvents] = useState([]);
   let page = useRef(1);
-
   const maxPages = useRef(Number.POSITIVE_INFINITY);
+
+  const [open, setOpen] = useState(false);
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: "Events",
+      headerLeft: () => (
+        <Button
+          onPress={() => setOpen((prevState) => !prevState)}
+          title="Filter"
+          color="#000"
+        />
+      ),
+    });
+  }, [navigation]);
 
   useEffect(() => {
     getMoreEvents();
@@ -105,26 +129,37 @@ export default function EventList() {
   let isRefreshing: boolean = false;
 
   return (
-    <FlatList
-      data={events}
-      style={styles.container}
-      //ListHeaderComponent={<EventFilter onFilter={onFilter} tags={tags} clearEvents={undefined} tagEvents={tagEvents}/>}
-      ListHeaderComponentStyle={{
-        position: "absolute",
-        marginBottom: 4,
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1,
+    <Drawer
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
+      renderDrawerContent={() => {
+        return (
+          <EventFilter onFilter={onFilter} tags={tags} tagEvents={tagEvents} />
+        );
       }}
-      onEndReached={getMoreEvents}
-      onRefresh={refreshEvents}
-      refreshing={isRefreshing}
-      renderItem={({ item }) => (
-        <View key={item.id} style={{ top: 65 }}>
-          <EventItem event={item} />
-        </View>
-      )}
-    />
+    >
+      <FlatList
+        data={events}
+        style={styles.container}
+        //ListHeaderComponent={<EventFilter onFilter={onFilter} tags={tags} clearEvents={undefined} tagEvents={tagEvents}/>}
+        ListHeaderComponentStyle={{
+          position: "absolute",
+          marginBottom: 4,
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1,
+        }}
+        onEndReached={getMoreEvents}
+        onRefresh={refreshEvents}
+        refreshing={isRefreshing}
+        renderItem={({ item }) => (
+          <View key={item.id} style={{ top: 65 }}>
+            <EventItem event={item} />
+          </View>
+        )}
+      />
+    </Drawer>
   );
 }
