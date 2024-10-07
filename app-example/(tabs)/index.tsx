@@ -6,7 +6,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import axios from "axios";
 
-export default function HomeScreen() {
+export default function HomeScreen(navigation: any) {
 
     axios.get(`http://localhost/api/tags`).then((response) => {
         console.log(response.data);
