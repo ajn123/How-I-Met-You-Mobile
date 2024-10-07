@@ -6,9 +6,9 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen name="(tabs)" options={{headerShown: false}} />
         <Stack.Screen
-                      options={{headerShown: false}}
+                      options={{headerShown: true}}
                           name="event"
-                      initialParams={{ itemId: 42 }}
+
                           />
     </Stack>
   );

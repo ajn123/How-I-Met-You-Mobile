@@ -1,48 +1,47 @@
-import {View, Text, StyleSheet, Image, ScrollView} from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import DateUtil from "@/utils/DateUtil";
-import {useNavigation} from "@react-navigation/native";
-
+import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
 
 type Event = {
-    name: string,
-    id: number,
-    date: string
+  name: string;
+  id: number;
+  date: string;
+};
 
-}
+const styles = StyleSheet.create({
+  item: {
+    zIndex: -1,
 
-const styles =   StyleSheet.create({
-    item: {
-        zIndex: -1,
-
-        margin: 5,
-        padding: 5,
-        color: "slategrey",
-        backgroundColor: "ghostwhite",
-        textAlign: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+    margin: 5,
+    padding: 5,
+    color: "slategrey",
+    backgroundColor: "ghostwhite",
+    textAlign: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
 });
 
-export default function EventItem({event}: any) {
+export default function EventItem({ event }: any) {
+  const navigation = useNavigation();
 
-    const navigation = useNavigation()
-    return (
-        <View style={styles.item} onTouchEnd={() => {
-            navigation.navigate('event', {event: event})
-        }}>
-            <Text style={{marginBottom: 5}}>{event.name}</Text>
-            <Text>{DateUtil(event.date)}</Text>
-            <Text>{event.url}</Text>
-
-            <Text>{event.description}</Text>
-
-
-        </View>
-    );
+  return (
+    <View
+      style={styles.item}
+      onTouchEnd={() => {
+        navigation.navigate("event", { event: event });
+      }}
+    >
+      <Text style={{ marginBottom: 5 }}>{event.name}</Text>
+      <Text>{DateUtil(event.date)}</Text>
+      <Text>{event.url}</Text>
+      <Text>{event.description}</Text>
+    </View>
+  );
 }

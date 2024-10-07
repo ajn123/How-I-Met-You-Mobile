@@ -11,6 +11,7 @@ export default function  TabLayout() {
     // @ts-ignore
     return (
         <Tabs
+
             >
             <Tabs.Screen
                 name={"index"}
