@@ -2,6 +2,12 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+## Frameworks Used
+- [React Native](https://reactnative.dev/)
+- [Expo Router](https://expo.dev/router/introduction)
+- [React Native Elements](https://reactnativeelements.com/docs/2.3.2/icon/)
+
+
 ## Get started
 
 1. Install dependencies
