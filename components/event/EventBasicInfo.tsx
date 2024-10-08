@@ -1,11 +1,12 @@
 import DateUtil from "@/utils/DateUtil";
 import { View, Text, StyleSheet, Linking } from "react-native";
-
+import { Button, Icon } from "@rneui/base";
 const styles = StyleSheet.create({
   eventName: {
     margin: 5,
     paddingTop: 8,
     bold: true,
+    fontSize: 20,
     fontWeight: "bold",
   },
   eventDate: {
@@ -54,7 +55,16 @@ export default function EventBasicInfo({ event, moreInfo = undefined }: any) {
           </Text>
         )}
       </View>
-      <Text
+      <Button
+        icon={
+          <Icon
+            name="edit-calendar"
+            style={{ marginRight: 15 }}
+            size={25}
+            color="white"
+          />
+        }
+        clear
         onPress={() => {
           const dateString = DateUtil(event.date, event.timezone, "numeric");
 
@@ -80,17 +90,18 @@ export default function EventBasicInfo({ event, moreInfo = undefined }: any) {
         style={styles.eventDate}
       >
         {DateUtil(event.date)}
-      </Text>
+      </Button>
 
       {event.url === "" ? null : (
-        <Text
+        <Button
+          icon={<Icon name="link" size={25} color="white" />}
           onPress={() => {
             Linking.openURL(event.url);
           }}
           style={styles.eventUrl}
         >
-          Official Link
-        </Text>
+          Website
+        </Button>
       )}
 
       <Text style={styles.eventDescription}>{event.description}</Text>

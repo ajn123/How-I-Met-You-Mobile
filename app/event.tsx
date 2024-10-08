@@ -3,6 +3,7 @@ import DateUtil from "@/utils/DateUtil";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import EventBasicInfo from "@/components/event/EventBasicInfo";
+import EventExtraInfo from "@/components/event/EventExtraInfo";
 
 export default function Event() {
   const navigation = useNavigation();
@@ -18,5 +19,10 @@ export default function Event() {
     });
   }, []);
 
-  return <EventBasicInfo event={event} />;
+  return (
+    <>
+      <EventExtraInfo event={event} />
+      <EventBasicInfo event={event} />
+    </>
+  );
 }
