@@ -30,6 +30,8 @@ const styles = StyleSheet.create({
 export default function EventList() {
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
+  const [filterTags, setFilterTags] = useState([]);
+
   const [events, setEvents] = useState([]);
   const [open, setOpen] = useState(false);
 
@@ -63,15 +65,6 @@ export default function EventList() {
       });
   }, []);
 
-  function onFilter(filter: string) {
-    axiosUtil()
-      .get(`/events?searchName=${filter}`)
-      .then((response) => {
-        console.log(response);
-        setEvents(response.data.data);
-      });
-  }
-
   // @ts-ignore
   const isCloseToBottom = ({
     layoutMeasurement,
@@ -103,6 +96,7 @@ export default function EventList() {
 
     const finalParams = {
       page: page.current,
+      tags: filterTags,
     };
 
     if (search) {
@@ -133,10 +127,18 @@ export default function EventList() {
       });
   };
 
-  function tagEvents() {
-    setEvents([]);
-    page.current = 1;
-    maxPages.current = Number.POSITIVE_INFINITY;
+  useEffect(() => {
+    getMoreEvents(false);
+  }, [filterTags]);
+
+  function tagEvents(tag: string) {
+    setFilterTags((prevState) => {
+      if (!prevState.includes(tag)) {
+        return [...prevState, tag];
+      } else {
+        return prevState.filter((t) => t !== tag);
+      }
+    });
   }
 
   function refreshEvents() {
@@ -153,9 +155,7 @@ export default function EventList() {
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       renderDrawerContent={() => {
-        return (
-          <EventFilter onFilter={onFilter} tags={tags} tagEvents={tagEvents} />
-        );
+        return <EventFilter tags={tags} tagEvents={tagEvents} />;
       }}
     >
       <View style={styles.container}>

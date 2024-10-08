@@ -1,7 +1,8 @@
 import { TextInput, View } from "react-native";
 import { Button } from "@rneui/base";
+import EventFilterButton from "@/components/event/EventFilterButton";
 
-export default function EventFilter({ onFilter, tags, tagEvents }) {
+export default function EventFilter({ tags, tagEvents }) {
   return (
     <View>
       <View
@@ -13,9 +14,8 @@ export default function EventFilter({ onFilter, tags, tagEvents }) {
         }}
       >
         {tags.map((tag: any) => (
-          <Button
+          <EventFilterButton
             onPress={() => tagEvents(tag.name)}
-            style={{ backgroundColor: tag.color, margin: 2 }}
             key={tag.id}
             title={tag.name}
           />
