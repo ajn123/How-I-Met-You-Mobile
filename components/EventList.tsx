@@ -11,6 +11,7 @@ import axiosUtil from "@/utils/axiosUtil";
 import EventFilter from "@/components/EventFilter";
 import { useNavigation } from "@react-navigation/native";
 import { Drawer } from "react-native-drawer-layout";
+import { SearchBar } from "@rneui/base";
 
 const styles = StyleSheet.create({
   container: {
@@ -27,14 +28,17 @@ const styles = StyleSheet.create({
 });
 
 export default function EventList() {
+  const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
   const [events, setEvents] = useState([]);
-  let page = useRef(1);
-  const maxPages = useRef(Number.POSITIVE_INFINITY);
-
   const [open, setOpen] = useState(false);
 
   const navigation = useNavigation();
+
+  let isRefreshing: boolean = false;
+
+  const maxPages = useRef(Number.POSITIVE_INFINITY);
+  let page = useRef(1);
 
   useEffect(() => {
     navigation.setOptions({
@@ -101,18 +105,31 @@ export default function EventList() {
       page: page.current,
     };
 
+    if (search) {
+      finalParams["searchName"] = search;
+    }
+
     console.log(finalParams);
 
+    const urlSearchParams = new URLSearchParams(finalParams);
+
+    console.log(`/api/events?${urlSearchParams.toString()}`);
+
     axiosUtil()
-      .get(`/events?page=${page.current}`)
+      .get(`/events?${urlSearchParams.toString()}`)
       .then((response) => {
+        maxPages.current = response.data.last_page;
         if (getMore) {
+          console.log("adding on");
           setEvents((prev) => [...prev, ...response.data.data]);
         } else {
+          console.log("replacing");
           setEvents(response.data.data);
         }
         page.current++;
-        maxPages.current = response.data.lastPage;
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -126,7 +143,9 @@ export default function EventList() {
     getMoreEvents(false);
   }
 
-  let isRefreshing: boolean = false;
+  useEffect(() => {
+    getMoreEvents(false);
+  }, [search]);
 
   return (
     <Drawer
@@ -139,27 +158,36 @@ export default function EventList() {
         );
       }}
     >
-      <FlatList
-        data={events}
-        style={styles.container}
-        //ListHeaderComponent={<EventFilter onFilter={onFilter} tags={tags} clearEvents={undefined} tagEvents={tagEvents}/>}
-        ListHeaderComponentStyle={{
-          position: "absolute",
-          marginBottom: 4,
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1,
-        }}
-        onEndReached={getMoreEvents}
-        onRefresh={refreshEvents}
-        refreshing={isRefreshing}
-        renderItem={({ item }) => (
-          <View key={item.id} style={{ top: 65 }}>
-            <EventItem event={item} />
-          </View>
-        )}
-      />
+      <View style={styles.container}>
+        <SearchBar
+          placeholder="Search..."
+          round
+          onChangeText={(text) => {
+            console.log(text);
+            setSearch(text);
+            getMoreEvents(false);
+          }}
+          onClear={() => {
+            setSearch("");
+          }}
+          onCancel={() => {
+            setSearch("");
+          }}
+          value={search}
+          containerStyle={{ backgroundColor: "white" }}
+        />
+        <FlatList
+          data={events}
+          onEndReached={getMoreEvents}
+          onRefresh={refreshEvents}
+          refreshing={isRefreshing}
+          renderItem={({ item }) => (
+            <View key={item.id}>
+              <EventItem event={item} />
+            </View>
+          )}
+        />
+      </View>
     </Drawer>
   );
 }
