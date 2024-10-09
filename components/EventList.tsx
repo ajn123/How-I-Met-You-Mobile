@@ -132,6 +132,11 @@ export default function EventList() {
   }, [filterTags]);
 
   function tagEvents(tag: string) {
+    if (!tag) {
+      setFilterTags([]);
+      return;
+    }
+
     setFilterTags((prevState) => {
       if (!prevState.includes(tag)) {
         return [...prevState, tag];
@@ -155,7 +160,13 @@ export default function EventList() {
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       renderDrawerContent={() => {
-        return <EventFilter tags={tags} tagEvents={tagEvents} />;
+        return (
+          <EventFilter
+            tags={tags}
+            filterTags={filterTags}
+            tagEvents={tagEvents}
+          />
+        );
       }}
     >
       <View style={styles.container}>

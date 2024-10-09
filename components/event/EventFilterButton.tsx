@@ -1,11 +1,12 @@
 import { Button } from "@rneui/base";
 import { useEffect, useState } from "react";
 
-export default function EventFilterButton({ onPress, title }: any) {
-  const [pressed, setPressed] = useState(false);
-
-  useEffect(() => {}, [pressed]);
-
+export default function EventFilterButton({
+  onPress,
+  title,
+  tags,
+  filterTags,
+}: any) {
   const buttonStyles = {
     borderRadius: 5,
     margin: 5,
@@ -14,11 +15,10 @@ export default function EventFilterButton({ onPress, title }: any) {
   return (
     <Button
       onPress={() => {
-        onPress();
-        setPressed((pressed) => !pressed);
+        onPress(title);
       }}
       buttonStyle={
-        pressed
+        filterTags.includes(title)
           ? { ...buttonStyles, backgroundColor: "green" }
           : { ...buttonStyles, backgroundColor: "red" }
       }

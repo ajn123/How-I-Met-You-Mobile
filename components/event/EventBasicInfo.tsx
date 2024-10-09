@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 export default function EventBasicInfo({ event, moreInfo = undefined }: any) {
   return (
     <>
-      <View style={{ margin: 2 }} onTouchStart={() => moreInfo()}>
+      <View style={{ margin: 2 }} onTouchStart={() => moreInfo && moreInfo()}>
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.eventName}>{event.name}</Text>
         </View>
@@ -73,6 +73,31 @@ export default function EventBasicInfo({ event, moreInfo = undefined }: any) {
         >
           {DateUtil(event.date)}
         </Chip>
+        {event.locations &&
+          event.locations.map((location: any) => {
+            return (
+              <Chip
+                key={location.id}
+                icon={
+                  <Icon
+                    name="location-pin"
+                    style={{ marginRight: 15, marginTop: 0 }}
+                    size={25}
+                    color="white"
+                  />
+                }
+                buttonStyle={{ backgroundColor: "#7b5dec" }}
+                style={{ margin: 5 }}
+                onPress={() => {
+                  Linking.openURL(
+                    `https://maps.google.com/?q=${location.name}`,
+                  );
+                }}
+              >
+                {location.name}
+              </Chip>
+            );
+          })}
 
         <Text style={styles.eventDescription}>{event.description}</Text>
       </View>
