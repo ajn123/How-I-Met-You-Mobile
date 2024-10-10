@@ -22,7 +22,7 @@ export default function Event() {
   return (
     <>
       <EventExtraInfo event={event} />
-      <EventBasicInfo event={event} />
+      <EventBasicInfo event={event} numberOfLines={100} />
     </>
   );
 }

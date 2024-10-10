@@ -129,7 +129,7 @@ export default function EventList() {
 
   useEffect(() => {
     getMoreEvents(false);
-  }, [filterTags]);
+  }, [filterTags, search]);
 
   function tagEvents(tag: string) {
     if (!tag) {
@@ -174,9 +174,7 @@ export default function EventList() {
           placeholder="Search..."
           round
           onChangeText={(text) => {
-            console.log(text);
             setSearch(text);
-            getMoreEvents(false);
           }}
           onClear={() => {
             setSearch("");

@@ -34,6 +34,7 @@ export default function EventItem({ event }: any) {
     <View style={styles.item}>
       <EventBasicInfo
         event={event}
+        numberOfLines={2}
         moreInfo={() => {
           navigation.navigate("event", { event: event });
         }}

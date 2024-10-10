@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     margin: 5,
     paddingTop: 8,
     bold: true,
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
   },
   eventDate: {
@@ -33,7 +33,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function EventBasicInfo({ event, moreInfo = undefined }: any) {
+export default function EventBasicInfo({
+  event,
+  moreInfo = undefined,
+  numberOfLines = 2,
+}: any) {
   return (
     <>
       <View style={{ margin: 2 }} onTouchStart={() => moreInfo && moreInfo()}>
@@ -41,6 +45,7 @@ export default function EventBasicInfo({ event, moreInfo = undefined }: any) {
           <Text style={styles.eventName}>{event.name}</Text>
         </View>
         <Chip
+          style={{ margin: 5 }}
           icon={
             <Icon
               name="edit-calendar"
@@ -99,7 +104,13 @@ export default function EventBasicInfo({ event, moreInfo = undefined }: any) {
             );
           })}
 
-        <Text style={styles.eventDescription}>{event.description}</Text>
+        <Text
+          style={styles.eventDescription}
+          numberOfLines={numberOfLines ?? 100}
+          ellipsizeMode="tail"
+        >
+          {event.description}
+        </Text>
       </View>
     </>
   );
