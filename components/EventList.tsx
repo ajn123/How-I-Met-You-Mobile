@@ -78,12 +78,6 @@ export default function EventList() {
     );
   };
 
-  const handleScroll = (event: NativeScrollEvent) => {
-    if (isCloseToBottom(event)) {
-      console.log(Date().toString());
-    }
-  };
-
   const getMoreEvents = (getMore = true) => {
     if (!getMore) {
       page.current = 1;
@@ -103,21 +97,17 @@ export default function EventList() {
       finalParams["searchName"] = search;
     }
 
-    console.log(finalParams);
-
     const urlSearchParams = new URLSearchParams(finalParams);
 
-    console.log(`/api/events?${urlSearchParams.toString()}`);
+    // console.log(`/api/events?${urlSearchParams.toString()}`);
 
     axiosUtil()
       .get(`/events?${urlSearchParams.toString()}`)
       .then((response) => {
         maxPages.current = response.data.last_page;
         if (getMore) {
-          console.log("adding on");
           setEvents((prev) => [...prev, ...response.data.data]);
         } else {
-          console.log("replacing");
           setEvents(response.data.data);
         }
         page.current++;

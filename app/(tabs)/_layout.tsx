@@ -10,18 +10,25 @@ export default function TabLayout() {
       <Tabs.Screen
         name={"index"}
         options={{
+          title: "Events",
           tabBarIcon: (color, focused) => (
             <TabBarIcon
-              name={focused ? "home" : "home-outline"}
+              name={focused ? "calendar" : "calendar-outline"}
               color={color}
             />
           ),
         }}
       />
 
-      {/*<Tabs.Screen*/}
-      {/*    name={'maps'}*/}
-      {/*    />*/}
+      <Tabs.Screen
+        name={"contact"}
+        options={{
+          title: "Contact",
+          tabBarIcon: (color, focused) => (
+            <TabBarIcon name="mail" color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

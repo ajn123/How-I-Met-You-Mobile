@@ -6,7 +6,7 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 - [React Native](https://reactnative.dev/)
 - [Expo Router](https://expo.dev/router/introduction)
 - [React Native Elements](https://reactnativeelements.com/docs/2.3.2/icon/)
-
+- [Icons](https://oblador.github.io/react-native-vector-icons/)
 
 ## Get started
 
