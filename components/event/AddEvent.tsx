@@ -21,13 +21,18 @@ export default function AddEvent() {
   };
 
   function submit() {
+    let data = {
+      name: name,
+      description: description,
+      date: date,
+    };
+
+    if (url) {
+      data["url"] = url;
+    }
+
     axiosUtil()
-      .post("/events", {
-        name: name,
-        description: description,
-        date: date,
-        url: url,
-      })
+      .post("/events", data)
       .then((resp) => {
         console.log(resp);
 
@@ -83,7 +88,7 @@ export default function AddEvent() {
         <Text>Event Date</Text>
         <DateTimePickerInput date={date} setDate={setDate} />
 
-        <Text>Event URL</Text>
+        <Text>Event UR (Optional)</Text>
         <TextInput
           style={{
             height: 40,
@@ -91,7 +96,7 @@ export default function AddEvent() {
             borderWidth: 1,
             marginBottom: 10,
           }}
-          placeholder="Event URL"
+          placeholder="http://"
           onChangeText={(text) => setUrl(text)}
           value={url}
         />
