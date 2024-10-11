@@ -12,7 +12,7 @@ export default function EventExtraInfo({ event }: any) {
         source={require("@/assets/images/react-logo.png")}
       />
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-        {event.url === "" ? null : (
+        {event.url != null && event.url !== "" && (
           <SocialMediaButton social={{ type: "link", url: event.url }} />
         )}
         {event.socials &&
