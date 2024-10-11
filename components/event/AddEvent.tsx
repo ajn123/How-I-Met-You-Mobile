@@ -4,8 +4,8 @@ import { Platform, TextInput, Text, View } from "react-native";
 import { Button, Icon, Overlay } from "@rneui/base";
 import { useState } from "react";
 import DateTimePickerInput from "@/components/form/DateTimePickerInput";
-import { Toast } from "expo-router/build/views/Toast";
-
+import Toast from "react-native-root-toast";
+import { ThemedText } from "@/components/ThemedText";
 export default function AddEvent() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -26,21 +26,35 @@ export default function AddEvent() {
         name: name,
         description: description,
         date: date,
+        url: url,
       })
       .then((resp) => {
         console.log(resp);
+
+        let toast = Toast.show("Successfully Submitted event", {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
+        });
+        setName("");
+        setDescription("");
+        setUrl("");
       })
       .catch((err) => {
-        console.log("axios error", err.response.data); // TODO: icon
-
-        setErrors(err.response.data.errors);
-        toggleOverlay();
+        console.log("axios error", err.response.data.message); // TODO: icon
+        let toast = Toast.show(err.response.data.message, {
+          duration: Toast.durations.LONG,
+          position: Toast.positions.CENTER,
+        });
       });
   }
 
   return (
     <>
       <View>
+        <ThemedText style={{ margin: 3, fontSize: 20 }} type={"title"}>
+          Submit an event here - if it's approved it will be listed. If you
+          don't know all the info i'll clean it up on my side :)
+        </ThemedText>
         <Text>Event Name</Text>
         <TextInput
           style={{
@@ -68,6 +82,19 @@ export default function AddEvent() {
 
         <Text>Event Date</Text>
         <DateTimePickerInput date={date} setDate={setDate} />
+
+        <Text>Event URL</Text>
+        <TextInput
+          style={{
+            height: 40,
+            borderColor: "gray",
+            borderWidth: 1,
+            marginBottom: 10,
+          }}
+          placeholder="Event URL"
+          onChangeText={(text) => setUrl(text)}
+          value={url}
+        />
         {/*<Text>Event Date</Text>*/}
         {/*<TextInput*/}
         {/*  style={{*/}
@@ -94,7 +121,12 @@ export default function AddEvent() {
         {/*  value={location}*/}
         {/*/>*/}
 
-        <Button title="Submit" onPress={submit} />
+        <Button
+          title="Submit"
+          buttonStyle={{ marginTop: 10 }}
+          style={{ marginTop: 10 }}
+          onPress={submit}
+        />
       </View>
       <Overlay
         isVisible={visible}
@@ -108,6 +140,8 @@ export default function AddEvent() {
         <Text style={{ backgroundColor: "white" }}>{errors.description}</Text>
 
         <Button
+          buttonStyle={{ marginTop: 10 }}
+          style={{ marginTop: 10 }}
           icon={
             <Icon
               name="wrench"
