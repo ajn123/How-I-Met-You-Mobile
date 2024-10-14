@@ -7,11 +7,12 @@ import {
 } from "react-native";
 import EventItem from "@/components/EventItem";
 import { useEffect, useRef, useState } from "react";
-import axiosUtil from "@/utils/axiosUtil";
+import axiosUtil from "@/utils/AxiosUtil";
 import EventFilter from "@/components/EventFilter";
 import { useNavigation } from "@react-navigation/native";
 import { Drawer } from "react-native-drawer-layout";
 import { SearchBar } from "@rneui/base";
+import AxiosUtil from "@/utils/AxiosUtil";
 
 const styles = StyleSheet.create({
   container: {
@@ -58,7 +59,7 @@ export default function EventList() {
   useEffect(() => {
     getMoreEvents();
 
-    axiosUtil()
+    AxiosUtil(false)
       .get(`/tags`)
       .then((response) => {
         setTags(response.data);
@@ -101,7 +102,7 @@ export default function EventList() {
 
     // console.log(`/api/events?${urlSearchParams.toString()}`);
 
-    axiosUtil()
+    AxiosUtil(false)
       .get(`/events?${urlSearchParams.toString()}`)
       .then((response) => {
         maxPages.current = response.data.last_page;
