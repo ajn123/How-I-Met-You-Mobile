@@ -6,7 +6,7 @@ import EventList from "@/components/EventList";
 import { Drawer } from "react-native-drawer-layout";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import EventFilter from "@/components/EventFilter";
+import EventFilter from "@/components/event/EventFilter";
 
 // @ts-ignore
 export default function Index() {

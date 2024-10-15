@@ -8,7 +8,7 @@ import {
 import EventItem from "@/components/EventItem";
 import { useEffect, useRef, useState } from "react";
 import axiosUtil from "@/utils/AxiosUtil";
-import EventFilter from "@/components/EventFilter";
+import EventFilter from "@/components/event/EventFilter";
 import { useNavigation } from "@react-navigation/native";
 import { Drawer } from "react-native-drawer-layout";
 import { SearchBar } from "@rneui/base";

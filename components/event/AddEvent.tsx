@@ -108,7 +108,7 @@ export default function AddEvent() {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView style={{ margin: 5 }}>
         <ThemedText style={{ margin: 3, fontSize: 20 }} type={"title"}>
           Submit an event here - if it's approved it will be listed. If you
           don't know all the info i'll clean it up on my side :)
@@ -141,7 +141,7 @@ export default function AddEvent() {
         <Text>Event Date</Text>
         <DateTimePickerInput date={date} setDate={setDate} />
 
-        <Text>Event UR (Optional)</Text>
+        <Text>Event URL (Optional)</Text>
         <TextInput
           style={{
             height: 40,
@@ -187,16 +187,19 @@ export default function AddEvent() {
         )}
 
         <Button
-          title="Pick Image"
-          buttonStyle={{ marginTop: 10 }}
+          title="Pick Image (Optional)"
+          buttonStyle={{ marginTop: 10, borderRadius: 5 }}
           style={{ marginTop: 10 }}
           onPress={pickImage}
         />
 
         <Button
           title="Submit"
-          buttonStyle={{ marginTop: 10 }}
-          style={{ marginTop: 10 }}
+          buttonStyle={{
+            marginTop: 10,
+            borderRadius: 5,
+            backgroundColor: "green",
+          }}
           onPress={submit}
         />
       </ScrollView>
@@ -207,7 +210,6 @@ export default function AddEvent() {
       >
         <Text>Errors</Text>
         <Text style={{ backgroundColor: "white" }}>{errors.date}</Text>
-
         <Text style={{ backgroundColor: "white" }}>{errors.name}</Text>
         <Text style={{ backgroundColor: "white" }}>{errors.description}</Text>
 

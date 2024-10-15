@@ -25,7 +25,7 @@ export default function TabLayout() {
         options={{
           title: "Contact",
           tabBarIcon: (color, focused) => (
-            <TabBarIcon name="mail" color={color} />
+            <TabBarIcon name={focused ? "mail" : "mail"} color={color} />
           ),
         }}
       />

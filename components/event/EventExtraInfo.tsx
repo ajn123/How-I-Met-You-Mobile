@@ -8,21 +8,13 @@ import { useState } from "react";
 export default function EventExtraInfo({ event }: any) {
   return (
     <View>
-      <Image
-        style={{ width: 100, height: 100, margin: 5 }}
-        resizeMode={"contain"}
-        source={{ uri: event.image_url }}
-      />
-
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
         {event.url != null && event.url !== "" && (
           <SocialMediaButton social={{ type: "link", url: event.url }} />
         )}
         {event.socials &&
           event.socials.map((social: any) => {
-            return (
-              <SocialMediaButton style={{}} key={social.id} social={social} />
-            );
+            return <SocialMediaButton key={social.id} social={social} />;
           })}
       </View>
     </View>

@@ -1,18 +1,22 @@
-import { TextInput, View } from "react-native";
+import { ScrollView, TextInput, View } from "react-native";
 import { Button } from "@rneui/base";
 import EventFilterButton from "@/components/event/EventFilterButton";
 
 export default function EventFilter({ tags, filterTags, tagEvents }) {
   return (
     <View>
-      <View
+      <ScrollView
         style={{
-          justifyContent: "space-evenly",
-          flexDirection: "column",
-          flexWrap: "wrap",
           gap: 8,
+          margin: 5,
         }}
       >
+        <EventFilterButton
+          onPress={() => tagEvents("")}
+          filterTags={filterTags}
+          tags={tags}
+          title="Clear Filter"
+        />
         {tags.map((tag: any) => (
           <EventFilterButton
             onPress={tagEvents}
@@ -22,14 +26,7 @@ export default function EventFilter({ tags, filterTags, tagEvents }) {
             title={tag.name}
           />
         ))}
-        <EventFilterButton
-          onPress={() => tagEvents("")}
-          buttonStyle={{ backgroundColor: "red" }}
-          filterTags={filterTags}
-          tags={tags}
-          title="Clear"
-        />
-      </View>
+      </ScrollView>
     </View>
   );
 }
