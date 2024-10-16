@@ -8,7 +8,7 @@ import {
   Image,
   ScrollView,
 } from "react-native";
-import { Button, Icon, Overlay } from "@rneui/base";
+import { Button, Divider, Icon, Overlay } from "@rneui/base";
 import { useState } from "react";
 import DateTimePickerInput from "@/components/form/DateTimePickerInput";
 import Toast from "react-native-root-toast";
@@ -21,6 +21,7 @@ export default function AddEvent() {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
   const [url, setUrl] = useState("");
+  const [location, setLocation] = useState("");
   const [tags, setTags] = useState("");
 
   const [image, setImage] = useState(null);
@@ -58,6 +59,10 @@ export default function AddEvent() {
       data["url"] = url;
     }
 
+    if (location !== "") {
+      data["location"] = location;
+    }
+
     if (image) {
       const formData = new FormData();
       formData.append("image", {
@@ -86,7 +91,7 @@ export default function AddEvent() {
     AxiosUtil(false)
       .post("/events", data)
       .then((resp) => {
-        console.log(resp);
+        // console.log(resp);
 
         let toast = Toast.show("Successfully Submitted event", {
           duration: Toast.durations.LONG,
@@ -96,6 +101,7 @@ export default function AddEvent() {
         setDescription("");
         setUrl("");
         setImage(null);
+        setLocation("");
       })
       .catch((err) => {
         console.log("axios error", err.response.data.message); // TODO: icon
@@ -109,7 +115,18 @@ export default function AddEvent() {
   return (
     <>
       <ScrollView style={{ margin: 5 }}>
-        <ThemedText style={{ margin: 3, fontSize: 20 }} type={"title"}>
+        <ThemedText
+          style={{
+            margin: 3,
+            fontSize: 16,
+            textAlign: "center",
+            borderRadius: 5,
+            borderColor: "black",
+            borderWidth: 1,
+            padding: 10,
+          }}
+          type={"subtitle"}
+        >
           Submit an event here - if it's approved it will be listed. If you
           don't know all the info i'll clean it up on my side :)
         </ThemedText>
@@ -136,6 +153,19 @@ export default function AddEvent() {
           placeholder="Event Description"
           onChangeText={(text) => setDescription(text)}
           value={description}
+        />
+
+        <Text>Event Location</Text>
+        <TextInput
+          style={{
+            height: 40,
+            borderColor: "gray",
+            borderWidth: 1,
+            marginBottom: 10,
+          }}
+          placeholder="Location"
+          onChangeText={(text) => setLocation(text)}
+          value={location}
         />
 
         <Text>Event Date</Text>
