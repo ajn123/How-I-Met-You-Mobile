@@ -181,6 +181,7 @@ export default function EventList() {
           onEndReached={getMoreEvents}
           onRefresh={refreshEvents}
           refreshing={isRefreshing}
+          scrollEnabled={true}
           renderItem={({ item }) => (
             <View key={item.id}>
               <EventItem event={item} />

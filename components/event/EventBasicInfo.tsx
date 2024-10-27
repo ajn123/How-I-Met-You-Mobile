@@ -63,15 +63,14 @@ export default function EventBasicInfo({
             Linking.openURL(
               `https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(
                 event.name,
-              )}&dates=${
-                year +
-                (month.length < 2 ? "0" + month : month) +
-                (day.length < 2 ? "0" + day : day) +
-                "T" +
-                hour +
-                (minute.length < 2 ? "0" + minute : minute) +
-                "00" +
-                (event.timezone ? `/${event.timezone}` : "")
+              )}&dates=${year +
+              (month.length < 2 ? "0" + month : month) +
+              (day.length < 2 ? "0" + day : day) +
+              "T" +
+              hour +
+              (minute.length < 2 ? "0" + minute : minute) +
+              "00" +
+              (event.timezone ? `/${event.timezone}` : "")
               }`,
             );
           }}

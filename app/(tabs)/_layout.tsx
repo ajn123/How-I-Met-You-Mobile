@@ -10,6 +10,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name={"index"}
         options={{
+          style: { backgroundColor: "white" },
           title: "Events",
           tabBarIcon: (color, focused) => (
             <TabBarIcon

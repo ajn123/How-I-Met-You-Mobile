@@ -7,7 +7,7 @@ export default function AxiosUtil() {
   };
 
   return axios.create({
-    baseURL: "http://localhost/api",
+    baseURL: "http://24.199.93.20/api",
     headers: header,
   });
 }

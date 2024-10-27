@@ -7,7 +7,7 @@ import { useState } from "react";
 
 export default function EventExtraInfo({ event }: any) {
   return (
-    <View>
+    <View >
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
         {event.url != null && event.url !== "" && (
           <SocialMediaButton social={{ type: "link", url: event.url }} />

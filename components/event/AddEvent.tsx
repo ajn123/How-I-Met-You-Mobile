@@ -13,16 +13,16 @@ import { useState } from "react";
 import DateTimePickerInput from "@/components/form/DateTimePickerInput";
 import Toast from "react-native-root-toast";
 import { ThemedText } from "@/components/ThemedText";
-
 import * as ImagePicker from "expo-image-picker";
 import AxiosUtil from "@/utils/AxiosUtil";
+import * as ImageManipulator from 'expo-image-manipulator';
+
 export default function AddEvent() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
   const [url, setUrl] = useState("");
   const [location, setLocation] = useState("");
-  const [tags, setTags] = useState("");
 
   const [image, setImage] = useState(null);
 
@@ -40,7 +40,8 @@ export default function AddEvent() {
     console.log(result);
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      const uri = result.assets[0].uri;
+      setImage(uri);
     }
   }
 
@@ -64,34 +65,50 @@ export default function AddEvent() {
     }
 
     if (image) {
+      console.log("image");
+
+      const manipResult = await ImageManipulator.manipulateAsync(
+        image,
+        [{ resize: { width: 600, height: 600 } }], // Resize to 800x600
+        { compress: 0.6, format: ImageManipulator.SaveFormat.JPEG } // Compress and set format
+      );
+
       const formData = new FormData();
+
+      console.log(manipResult);
+      console.log(manipResult.uri);
+
       formData.append("image", {
-        uri: image,
+        uri: manipResult.uri,
         type: "image/jpeg",
         name: "image.jpg",
       });
-      const response = await axios
-        .post("http://localhost/api/events/image", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((response) => {
-          console.log(response.data.url);
-          data["image_url"] = response.data.url;
-        })
-        .catch((err) => {
-          console.log("axios error", err); // TODO: icon
-        });
-      console.log("hi");
+
+      try {
+        let response = await axiosUtil()
+          .post("/events/image", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+        console.log(response.data.url);
+        console.log("SUBMITTED IMAGE");
+        data["image_url"] = response.data.url;
+
+      } catch (err) {
+        console.log("axios error", err); // TODO: icon
+      }
+    } else {
+      console.log("no image");
     }
 
     console.log(data);
 
-    AxiosUtil(false)
+    AxiosUtil()
       .post("/events", data)
       .then((resp) => {
         // console.log(resp);
+        console.log("SUBMITTED EVENT");
 
         let toast = Toast.show("Successfully Submitted event", {
           duration: Toast.durations.LONG,
@@ -100,8 +117,9 @@ export default function AddEvent() {
         setName("");
         setDescription("");
         setUrl("");
-        setImage(null);
         setLocation("");
+
+        setImage(null);
       })
       .catch((err) => {
         console.log("axios error", err.response.data.message); // TODO: icon

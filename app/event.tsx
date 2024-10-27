@@ -21,7 +21,7 @@ export default function Event() {
   }, []);
 
   return (
-    <>
+    <View style={{ flex: 1 }}>
       <ParallaxScrollView
         headerImage={
           <Image
@@ -33,11 +33,14 @@ export default function Event() {
             }}
           />
         }
-        headerBackgroundColor={"#D0D0D0"}
+        headerBackgroundColor={"black"}
       >
-        <EventExtraInfo event={event} />
-        <EventBasicInfo event={event} numberOfLines={100} />
+        <View style={{ backgroundColor: "white" }}>
+
+          <EventExtraInfo event={event} />
+          <EventBasicInfo event={event} numberOfLines={100} />
+        </View>
       </ParallaxScrollView>
-    </>
+    </View>
   );
 }
