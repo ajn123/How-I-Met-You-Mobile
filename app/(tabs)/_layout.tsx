@@ -11,7 +11,7 @@ export default function TabLayout() {
         name={"index"}
         options={{
           style: { backgroundColor: "white" },
-          title: "Events",
+          title: "Eveneuts",
           tabBarIcon: (color, focused) => (
             <TabBarIcon
               name={focused ? "calendar" : "calendar-outline"}

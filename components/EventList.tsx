@@ -3,6 +3,7 @@ import {
   FlatList,
   NativeScrollEvent,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
 import EventItem from "@/components/EventItem";
@@ -183,9 +184,9 @@ export default function EventList() {
           refreshing={isRefreshing}
           scrollEnabled={true}
           renderItem={({ item }) => (
-            <View key={item.id}>
+            <TouchableOpacity key={item.id} onPress={() => navigation.navigate("event", { event: item })}>
               <EventItem event={item} />
-            </View>
+            </TouchableOpacity>
           )}
         />
       </View>
