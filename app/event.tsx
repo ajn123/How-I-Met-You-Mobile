@@ -1,4 +1,4 @@
-import { Button, Image, Text, View } from "react-native";
+import { Alert, Button, Image, Linking, Text, View } from "react-native";
 import DateUtil from "@/utils/DateUtil";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
@@ -15,7 +15,26 @@ export default function Event() {
       headerTitle: event.name,
       headerBackTitle: "Back",
       headerRight: () => (
-        <Button title={"Share"} onPress={() => alert("share")} />
+        <Button title={"Share"} onPress={() => {
+          Alert.alert(
+            "Share Event",
+            "Would you like to text this event to someone?",
+            [
+              {
+                text: "Cancel",
+                style: "cancel",
+              },
+              {
+                text: "OK", onPress: () => {
+                  const message = `Check out this event: ${event.name} on ${DateUtil(event.date, 'EST', "numeric")}${event.url ? `  URL: ${event.url}` : ''}`;
+                  Linking.openURL(`sms:?body=${encodeURIComponent(message)}`);
+                }
+              },
+            ],
+            { cancelable: true }
+          );
+
+        }} />
       ),
     });
   }, []);
